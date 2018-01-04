@@ -1,3 +1,7 @@
+// Copyright 2016-2017 Kirill Zhuharev. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package since
 
 import (
@@ -7,7 +11,39 @@ import (
 	"time"
 )
 
-func Since(t time.Time) string {
+var (
+	// Day is time.Duration of day
+	Day = time.Hour * 24
+	// Week is 7 days
+	Week = Day * 7
+	// Month is 30 days. Be careful!
+	Month = Day * 30
+	// Year is 365 days. Be careful!
+	Year = Day * 365
+)
+
+// Since is main struct
+type Since struct {
+	timeOrDuration interface{}
+	Translator
+}
+
+// New returns Since instance
+func New(timeOrDuration interface{}) (s *Since, err error) {
+	s = &Since{
+		timeOrDuration: timeOrDuration,
+	}
+
+	return
+}
+
+// MustNew create Since and ignore errors
+func MustNew(timeOrDuration interface{}) (s *Since) {
+	s, _ = New(timeOrDuration)
+	return
+}
+
+func SinceDeprecated(t time.Time) string {
 	//now := time.Now()
 
 	s := since(time.Since(t))
